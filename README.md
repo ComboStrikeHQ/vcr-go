@@ -1,5 +1,7 @@
 # VCR
 
+[![Circle CI](https://circleci.com/gh/ad2games/vcr-go.svg?style=svg)](https://circleci.com/gh/ad2games/vcr-go)
+
 But for golang.
 
 ## Features
