@@ -1,0 +1,14 @@
+machine:
+  environment:
+    GOVERSION: 1.5.3
+    GOROOT: ${HOME}/go
+    PATH: ${GOROOT}/bin:${PATH}
+  post:
+    - curl https://storage.googleapis.com/golang/go${GOVERSION}.linux-amd64.tar.gz |tar xz
+dependencies:
+  override:
+    - make deps
+test:
+  override:
+    - make lint
+    - make test
