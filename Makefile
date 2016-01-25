@@ -5,7 +5,7 @@ deps:
 	gometalinter -iu
 
 lint:
-	gometalinter -D errcheck --deadline=15s
+	gometalinter -E gofmt -D errcheck --deadline=15s
 
 test:
 	go test -v -race -cover |tee testlog.out
