@@ -80,11 +80,11 @@ func (rt *roundTripper) RoundTrip(request *http.Request) (*http.Response, error)
 		}
 		vcrRes = newVCRResponse(response)
 
-		episode := episode{Request: vcrReq, Response: vcrRes}
-		currentCassette.Episodes = append(currentCassette.Episodes, episode)
+		e := episode{Request: vcrReq, Response: vcrRes}
+		currentCassette.Episodes = append(currentCassette.Episodes, e)
 	} else {
-		episode := currentCassette.matchEpisode(vcrReq)
-		vcrRes = episode.Response
+		e := currentCassette.matchEpisode(vcrReq)
+		vcrRes = e.Response
 	}
 
 	return vcrRes.httpResponse(), nil

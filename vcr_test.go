@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"encoding/base64"
 	"fmt"
-	assert "github.com/stretchr/testify/require"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"strings"
 	"testing"
+
+	assert "github.com/stretchr/testify/require"
 )
 
 var testRequestCounter = 0
@@ -160,7 +161,7 @@ func TestEpisodesDoNotMatch(t *testing.T) {
 	// Method mismatch
 	func() {
 		defer func() {
-			assert.Equal(t, recover(), "VCR: Episodes do not match!")
+			assert.Equal(t, fmt.Sprintf("VCR: Problem with Episode for POST %s\n  Episode Method does not match:\n  expected: GET\n  but got: POST", ts.URL), recover())
 		}()
 
 		Start("test_cassette", nil)
@@ -171,18 +172,19 @@ func TestEpisodesDoNotMatch(t *testing.T) {
 
 	// URL mismatch
 	func() {
+		otherURL := ts.URL + "/abc"
 		defer func() {
-			assert.Equal(t, recover(), "VCR: Episodes do not match!")
+			assert.Equal(t, fmt.Sprintf("VCR: Problem with Episode for GET %s\n  Episode URL does not match:\n  expected: %v\n  but got: %v", otherURL, ts.URL, otherURL), recover())
 		}()
 
 		Start("test_cassette", nil)
 		defer Stop()
-		testRequest(t, ts.URL+"/abc", nil)
+		testRequest(t, otherURL, nil)
 	}()
 
 	func() {
 		defer func() {
-			assert.Equal(t, recover(), "VCR: Episodes do not match!")
+			assert.Equal(t, fmt.Sprintf("VCR: Problem with Episode for POST %s\n  Episode Body does not match:\n  expected: foo\n  but got: bar", ts.URL), recover())
 		}()
 
 		body := "foo"
