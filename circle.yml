@@ -1,6 +1,6 @@
 machine:
   environment:
-    GOVERSION: 1.5.3
+    GOVERSION: 1.8.1
     GOROOT: ${HOME}/go
     PATH: ${GOROOT}/bin:${PATH}
   post:
