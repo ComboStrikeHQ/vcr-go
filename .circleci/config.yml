@@ -1,0 +1,16 @@
+version: 2
+job_template: &job
+  working_directory: /go/src/github.com/ad2games/gocake
+  docker: &docker
+    - image: circleci/golang:1.8.5
+      environment:
+        GOVERSION: 1.8.5
+
+jobs:
+  build:
+    <<: *job
+    steps:
+      - checkout
+      - run: make deps
+      - run: make lint
+      - run: make test
