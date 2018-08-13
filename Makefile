@@ -5,7 +5,7 @@ deps:
 	gometalinter -iu
 
 lint:
-	gometalinter -E gofmt -D errcheck -D gas
+	gometalinter -E gofmt -D errcheck -D gosec
 
 test:
 	go test -v -race -cover |tee testlog.out
