@@ -65,6 +65,14 @@ func (c *cassette) matchEpisode(request *vcrRequest) *episode {
 		panic("VCR: No more episodes!")
 	}
 
+	for i, e := range c.Episodes {
+		expected := e.Request
+		if expected.Method == request.Method && expected.URL == request.URL && reflect.DeepEqual(expected.Body, request.Body) {
+			c.Episodes[i] = c.Episodes[0]
+			c.Episodes = c.Episodes[1:]
+			return &e
+		}
+	}
 	e := c.Episodes[0]
 	expected := e.Request
 
@@ -80,6 +88,5 @@ func (c *cassette) matchEpisode(request *vcrRequest) *episode {
 		panicEpisodeMismatch(request, "Body", string(expected.Body[:]), string(request.Body[:]))
 	}
 
-	c.Episodes = c.Episodes[1:]
 	return &e
 }
